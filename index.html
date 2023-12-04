@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GE2340 Email Spam Filtration</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <header>
+    <h2 id="title">GE2340 Email Spam Filtration</h2>
+    <p>Syimyk Barchynbek uulu</p>
+    <nav id="navbar">
+      <ul>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#preprocessing">Data Preprocessing</a></li>
+        <li><a href="#extraction">Feature Extraction</a></li>
+        <li><a href="#training">Model Training and Evaluation</a></li>
+        <li><a href="#tuning">Fine Tuning</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="introduction">
+      <h2>Introduction</h2>
+      <p>In the digital age, spam emails have become an unavoidable nuisance, accounting for a significant portion of all emails received. With the escalating volume of spam, manual analysis and filtering is no longer feasible, necessitating automated solutions. Machine Learning, with its ability to learn and adapt from data, offers a promising avenue for addressing this issue more efficiently.<br><br>
+
+        Machine learning algorithms can be trained to accurately categorize emails as spam or legitimate, based on patterns and features identified in the data. These algorithms analyze various elements of an email, such as the subject line, content, sender's details, and attached links, to determine its legitimacy.<br><br>
+        
+        The types of spam emails are diverse, ranging from harmless advertisements to dangerous phishing or fraudulent messages. The latter can pose serious threats, from spreading malware to stealing sensitive information. Therefore, the importance of effective spam filters extends beyond mere convenience to encompass security aspects as well</p>
+
+    <p>
+        Among the myriad of techniques available in the field of machine learning, this project has opted to utilize supervised learning algorithms. Supervised learning is a type of machine learning where models are trained using labeled data. In this context, "labeled" means that each example in the training dataset is paired with a corresponding output or "label".<br>
+
+Supervised learning algorithms are designed to learn by example. When training a supervised learning model, the algorithm is provided with a set of example inputs along with their corresponding outputs. The model learns by comparing its predicted output with the actual output. Over time, the model improves and is able to make predictions or decisions based on the learned patterns.<br><br>
+In the illustration below, you can see a visualization of the supervised learning process:<br>
+
+    </p>
+      <img src="images/supervised_leaerning.jpg" alt="Description of the image">
+    </section>
+
+    <section id="preprocessing">
+      <h2>Data Preprocessing</h2>
+      <p>The dataset used is <a href="https://www.kaggle.com/datasets/venky73/spam-mails-dataset">Kaggle</a>, which contains email messages and their corresponding categories.</p>
+
+<h3>The preprocessing steps include:</h3>
+
+<ol>
+<li>Dropping undefined and duplicate values</li>
+<li>Removing punctuation and numerical characters from the text</li>
+<li>Converting the text to lower case</li>
+<li>Tokenizing the text (breaking down the text into individual words)</li>
+<li>Removing English stop words (common words like 'the', 'is', 'and', etc. that do not contribute much to the meaning of the text)</li>
+</ol>
+      <img src="images/prepocessing.png" alt="Description of the image">
+    </section>
+
+    <section id="extraction">
+        <h2>Feature Extraction</h2>
+        <h2>Text Vectorization Process</h2>
+
+        <p>The cleaned text is then vectorized using the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html">CountVectorizer</a> from the <a href="https://scikit-learn.org/stable/modules/classes.html#module-sklearn.feature_extraction.text">sklearn.feature_extraction.text</a> module. This process converts the text into numerical feature vectors that can be used by the machine learning models. The output variable is 'Category', which indicates whether an email is 'spam' or 'ham'.</p>
+        <img src="images/extraction.png" alt="Description of the image">
+      </section>
+
+      <section id="training">
+        <h2>Model Training</h2>
+        
+        <p>The data is split into training and testing sets, with 80% of the data used for training the models and 20% reserved for testing. Six different classifiers are used:</p>
+
+        <ul>
+        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html">Multinomial Naive Bayes</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html">K-Nearest Neighbors</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html">Support Vector Machine (SVM) with a polynomial kernel</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">Logistic Regression</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html">Decision Tree</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html">Random Forest</a></li>
+        </ul>
+        
+        <p>Each model is trained and then used to make predictions on the test data. Several performance metrics are calculated for each model:</p>
+        
+        <ul>
+        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html">Accuracy</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html">Precision</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html">Recall</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html">F1 Score</a></li>
+        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html">ROC AUC Score</a></li>
+        </ul>
+        
+        <p>These metrics are used to evaluate the performance of the classifiers. The positive class label for Precision, Recall and F1 Score is 'spam'.</p>
+
+        <img src="images/training.png" alt="Description of the image">
+      </section>
+
+      <section id="tuning">
+        <h2>Fine Tuning</h2>
+        
+        <p>After the initial training phase, each model was fine-tuned to achieve the best performance. Hyperparameters were optimized using <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html">GridSearchCV</a> which exhaustively searches over specified parameter values for an estimator.</p>
+
+<p>The Multinomial Naive Bayes model performed best with a smoothing parameter of 0.5, achieving an accuracy of 95.9%. <br>The K-Nearest Neighbors model with n_neighbors set to 3 reached an accuracy of 91.5%. <br>The SVM with a polynomial kernel showed optimal results with C=0.1 and degree=3, yielding an accuracy of 97.1%. <br>The Logistic Regression model was most accurate with C=1.0, reaching 97.6% accuracy. <br>The Decision Tree showed the best performance with max_depth set to 6, resulting in an accuracy of 96.1%. <br>Lastly, the Random Forest model performed best with n_estimators set to 100 and max_depth set to 10, achieving an accuracy of 97.4%.</p>
+
+
+        <img src="images/fine_tuning.png" alt="Description of the image">
+      </section>
+
+      <section id="results">
+        <h2>Results</h2>
+        <p>The accuracy, precision, recall, F1, and ROC AUC scores for each classifier are shown in the table below:</p>
+
+<table>
+  <tr>
+    <th>Classifier</th>
+    <th>Accuracy</th>
+    <th>Precision</th>
+    <th>Recall</th>
+    <th>F1</th>
+    <th>ROC AUC</th>
+  </tr>
+  <tr>
+    <td>Naive Bayes</td>
+    <td>0.959302</td>
+    <td>0.779762</td>
+    <td>0.963235</td>
+    <td>0.861842</td>
+    <td>0.983489</td>
+  </tr>
+  <tr>
+    <td>K-Nearest Neighbors</td>
+    <td>0.915698</td>
+    <td>1.000000</td>
+    <td>0.360294</td>
+    <td>0.529730</td>
+    <td>0.821273</td>
+  </tr>
+  <tr>
+    <td>SVM</td>
+    <td>0.931202</td>
+    <td>0.971014</td>
+    <td>0.492647</td>
+    <td>0.653659</td>
+    <td>0.978573</td>
+  </tr>
+  <tr>
+    <td>Logistic Regression</td>
+    <td>0.976744</td>
+    <td>0.974576</td>
+    <td>0.845588</td>
+    <td>0.905512</td>
+    <td>0.992581</td>
+  </tr>
+  <tr>
+    <td>Decision Tree</td>
+    <td>0.961240</td>
+    <td>0.875000</td>
+    <td>0.823529</td>
+    <td>0.848485</td>
+    <td>0.902836</td>
+  </tr>
+  <tr>
+    <td>Random Forest</td>
+    <td>0.974806</td>
+    <td>0.991071</td>
+    <td>0.816176</td>
+    <td>0.895161</td>
+    <td>0.988934</td>
+  </tr>
+</table>
+
+<p>Based on these metrics, Logistic Regression and Random Forest performed the best on this spam classification task, with Logistic Regression having the highest ROC AUC and F1 scores, and Random Forest having the highest Accuracy and Precision scores.</p>
+            
+
+      </section>
+
+    
+
+    <!-- Repeat section pattern for remaining sections -->
+    
+  </main>
+
+  
+
+  <script src="script.js"></script>
+</body>
+</html>
